@@ -11,7 +11,44 @@
 </head>
 <body>
 	<div id="app">
+		<div class="games-tab">
+			<div class="col">
+				<game :games="games" id="0"></game>
+				<game :games="games" id="1"></game>
+			</div>
+			<div class="col" style="flex-grow: 1.25">
+				<header>
+					<div class="logo">
+						Pia<span class="acc">Ras</span>
+					</div>
+				</header>
+				<game :games="games" id="2"></game>
+			</div>
+			<div class="col">
+				<game :games="games" id="3"></game>
+				<game :games="games" id="4"></game>
+			</div>
+		</div>
 		
+		<transition name="slide-up">
+			<div class="modal" v-if="contols.modalActive || contols.modalActive != ''">
+				<div class="container">
+					<h1>{{games[contols.modalActive]['name']}}</h1>
+					{{games[contols.modalActive]['desc']}}
+					<div class="news" v-if="games[contols.modalActive]['news']">
+						<div class="box" v-for="news in games[contols.modalActive]['news']">
+							{{news.name}}<br>
+							{{news.desc}}<br>
+							<img :src="'img/' + news['img']" v-if="news['img']"><br>
+							{{news.date}}<br>
+						</div>
+					</div>
+					<button @click="contols.modalActive = ''">Закрыть</button>
+				</div>
+				<div class="bg" @click="contols.modalActive = ''"></div>
+			</div>
+<!--			Статус чита-->
+		</transition>
 	</div>
 
 <script src="scripts/common.js"></script>
