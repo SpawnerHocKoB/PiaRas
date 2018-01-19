@@ -1,0 +1,37 @@
+ <form action="handler_admin" method="POST" id="editform">
+    <h2 style="margin-left: 10px; font-size: 20px; font-family: sans-serif;">Форма редактирования</h2>
+    <input type="text" placeholder="id" name="id" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Название чита" name="name_cheat" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Название игры" name="name_game" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Стоимость чита" name="price" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Версия чита" name="version" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" name="type" value="edit" style="display: none;">
+    <input type="submit" value="Изменить" style="margin-top: 10px; margin-left: 10px;" id="send">
+    <div class="modal-error" data-attr="login"></div>
+ </form>   
+
+<script>
+
+      $("#send").click(function(e) {
+        e.preventDefault();
+        $("div.modal-error").text("");
+        var form = $("#editform");
+        $.ajax({
+            type: "POST",
+            url: "http://ana.lh1.in/piaras/controllers/handler_admin.php",
+            data: $(form).serialize(),
+            success: function(result) {
+                var array = jQuery.parseJSON(result);
+                if (array.redi){ location(array.redi); }
+                $("div[data-attr='login']").text(array.message);
+                console.log($(form).serialize());
+            }
+        });
+        
+        function location(url){
+            window.location.href='/piaras/' + url;
+        }
+        
+    });
+    
+</script>

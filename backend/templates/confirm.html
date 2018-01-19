@@ -1,0 +1,28 @@
+<form id="confform" action="/controllers/handler_confirm" method="POST">
+        <input type="text" placeholder="Введите код" name="r_code">
+        <input type="submit" value="Отправить" id="send" name="send">
+        <div class="modal-error" data-attr="login"></div>
+</form>
+    
+<script>
+    $("#send").click(function(e) {
+        e.preventDefault();
+        $("div.modal-error").text("");
+        var form = $("#confform");
+        $.ajax({
+            type: "POST",
+            url: "http://ana.lh1.in/piaras/controllers/handler_confirm.php",
+            data: $(form).serialize(),
+            success: function(result) {
+                var array = jQuery.parseJSON(result);
+                if (array.redi){ location(array.redi); }
+                $("div[data-attr='login']").text(array.message);
+            }
+        });
+        
+        function location(url){
+            window.location.href='/piaras/' + url;
+        }
+        
+    });
+</script>

@@ -1,0 +1,28 @@
+    <form id="resform" action="/controllers/handler_restoring" method="POST">
+            <input type="text" placeholder="Введите email" name="email">
+            <input type="submit" value="Отправить" id="send" name="send">
+            <div class="modal-error" data-attr="login"></div>
+    </form>
+    
+<script>
+    $("#send").click(function(e) {
+        e.preventDefault();
+        $("div.modal-error").text("");
+        var form = $("#resform");
+        $.ajax({
+            type: "POST",
+            url: "http://ana.lh1.in/piaras/controllers/handler_restoring.php",
+            data: $(form).serialize(),
+            success: function(result) {
+                var array = jQuery.parseJSON(result);
+                if (array.redi){ location(array.redi); }
+                $("div[data-attr='login']").text(array.message);
+            }
+        });
+        
+        function location(url){
+            window.location.href='/piaras/' + url;
+        }
+        
+    });
+</script>

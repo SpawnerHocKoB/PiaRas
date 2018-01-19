@@ -1,0 +1,29 @@
+<form id="confform" action="/controllers/handler_reset_pass.php" method="POST">
+        <input type="password" placeholder="Введите новый пароль" name="password">
+        <input type="text" placeholder="Введите пароль повторно" name="password_2">
+        <input type="submit" value="Отправить" id="send" name="send">
+        <div class="modal-error" data-attr="login"></div>
+</form>
+
+<script>
+    $("#send").click(function(e) {
+        e.preventDefault();
+        $("div.modal-error").text("");
+        var form = $("#confform");
+        $.ajax({
+            type: "POST",
+            url: "http://ana.lh1.in/piaras/controllers/handler_reset_pass.php",
+            data: $(form).serialize(),
+            success: function(result) {
+                var array = jQuery.parseJSON(result);
+                if (array.redi){ location(array.redi); }
+                $("div[data-attr='login']").text(array.message);
+            }
+        });
+        
+        function location(url){
+            window.location.href='/piaras/' + url;
+        }
+        
+    });
+</script>

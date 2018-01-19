@@ -3,52 +3,54 @@
 <head>
 	<meta charset="utf-8">
 	<title>PiaRas store</title>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 	<link rel="stylesheet/less" type="text/css" href="css/style.less">
 	<script src="scripts/less.min.js"></script>
 	<link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
 	<script src="scripts/vue.min.js"></script>
+	<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
 	<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!--	<script src="scripts/owl.carousel.min.js"></script>-->
 </head>
 <body>
 	<div id="app">
+		<div class="userpanel">
+			<div class="user" v-if="user.auth">
+				<div class="email">
+					{{user.email}}
+				</div>
+				<button class="logout" @click.prevent="rLink('/logout')">
+					Выйти
+				</button>
+			</div>
+			<div class="no-auth" v-else>
+				<button class="login" @click.prevent="rLink('/auth')">Вход</button>
+				<button class="sign-up" @click.prevent="rLink('/signup')">Регистрация</button>
+			</div>
+		</div>
 		<div class="games-tab">
 			<div class="col">
-				<game :games="games" id="0"></game>
-				<game :games="games" id="1"></game>
+				<game id="0"></game>
+				<game id="1"></game>
 			</div>
 			<div class="col" style="flex-grow: 1.25">
 				<header>
-					<div class="logo">
+					<a href="#" class="logo">
 						Pia<span class="acc">Ras</span>
-					</div>
+						<span class="alt">Здесь вас наебут и обоссут</span>
+					</a>
 				</header>
-				<game :games="games" id="2"></game>
+				<game id="2"></game>
 			</div>
 			<div class="col">
-				<game :games="games" id="3"></game>
-				<game :games="games" id="4"></game>
+				<game id="3"></game>
+				<game id="4"></game>
 			</div>
 		</div>
 		
-		<transition name="slide-up">
-			<div class="modal" v-if="contols.modalActive || contols.modalActive != ''">
-				<div class="container">
-					<h1>{{games[contols.modalActive]['name']}}</h1>
-					{{games[contols.modalActive]['desc']}}
-					<div class="news" v-if="games[contols.modalActive]['news']">
-						<div class="box" v-for="news in games[contols.modalActive]['news']">
-							{{news.name}}<br>
-							{{news.desc}}<br>
-							<img :src="'img/' + news['img']" v-if="news['img']"><br>
-							{{news.date}}<br>
-						</div>
-					</div>
-					<button @click="contols.modalActive = ''">Закрыть</button>
-				</div>
-				<div class="bg" @click="contols.modalActive = ''"></div>
-			</div>
-<!--			Статус чита-->
-		</transition>
+		<router-view></router-view>
+		
+<!--		<popup :status="controls.popup"></popup>-->
 	</div>
 
 <script src="scripts/common.js"></script>

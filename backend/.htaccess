@@ -1,0 +1,2 @@
+AddHandler application/x-httpd-php-7.0 .php
+php_value display_errors 1

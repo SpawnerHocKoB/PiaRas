@@ -1,0 +1,37 @@
+ <form action="handler_admin" method="POST" id="editnews">
+    <h2 style="margin-left: 10px; font-size: 20px; font-family: sans-serif;">Форма редактирования новостей</h2>
+    <input type="text" placeholder="id Новости" name="id" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Название новости" name="name_news" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Название чита" name="name_cheat" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" placeholder="Текст" name="text" style="margin: 10px; padding: 5px;"><br>
+    <input type="text" name="type" value="editNews" style="display: none;">
+    <input type="submit" value="Изменить" style="margin-top: 10px; margin-left: 10px;" id="send">
+    <div class="modal-error" data-attr="login"></div>
+ </form>  
+      
+<script>  
+ 
+      $("#send").click(function(e) {
+        e.preventDefault();
+        $("div.modal-error").text("");
+        var form = $("#editnews");
+        $.ajax({
+            type: "POST",
+            url: "http://hezek.lh1.in/cheti/controllers/handler_admin.php",
+            data: $(form).serialize(),
+            success: function(result) {
+                var array = jQuery.parseJSON(result);
+                if (array.redi){ location(array.redi); }
+                $("div[data-attr='login']").text(array.message);
+                console.log($(form).serialize());
+            }
+        });
+        
+        function location(url){
+            window.location.href='/cheti/' + url;
+        }
+        
+    }); 
+      
+</script> 
+       
